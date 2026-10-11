@@ -1,14 +1,363 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#10090e"><title>For you, babe ♥</title><style>
-:root{--bg:#10090e;--pink:#ff4d87;--rose:#ff9cba;--text:#fff2f6;--muted:#c8aab8;--line:#492438}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#351226,var(--bg) 58%);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}.wrap{width:min(720px,100%);margin:auto;padding:22px 16px 50px}.top{text-align:center;padding:25px 8px 20px}.heart{font-size:44px;color:var(--pink);filter:drop-shadow(0 0 18px #ff4d8780);animation:pulse 1.8s infinite}@keyframes pulse{50%{transform:scale(1.1)}}.eyebrow{letter-spacing:.2em;text-transform:uppercase;color:var(--rose);font-size:.72rem}h1,h2{font-family:Georgia,serif;font-weight:500}h1{font-size:clamp(2.5rem,8vw,4rem);line-height:1.04;margin:12px 0}h2{font-size:clamp(1.6rem,5vw,2.2rem);margin:12px 0 20px}p{line-height:1.65;color:var(--muted)}.card{background:linear-gradient(145deg,#21131d,#170e15);border:1px solid var(--line);border-radius:24px;padding:clamp(20px,5vw,34px);box-shadow:0 18px 60px #0005;margin:18px 0}.progress{height:5px;background:#402033;border-radius:9px;overflow:hidden;margin:8px 0 24px}.bar{height:100%;background:linear-gradient(90deg,var(--pink),#ffb1c6);width:0;transition:width .3s}.qnum{color:var(--rose);font-size:.78rem;text-transform:uppercase;letter-spacing:.15em}.options{display:grid;gap:10px;margin:18px 0}.option{display:block;text-align:left;border:1px solid #573047;border-radius:14px;padding:14px 16px;background:#1a1018;color:var(--text);cursor:pointer}.option:hover,.option.selected{border-color:var(--pink);background:#351629}.btn{border:0;border-radius:999px;padding:13px 22px;background:linear-gradient(100deg,#ff4d87,#ff7ba1);color:#260914;font-weight:750;cursor:pointer}.btn.secondary{background:transparent;color:var(--text);border:1px solid #75425b}.btn:disabled{opacity:.4;cursor:not-allowed}.actions{display:flex;justify-content:space-between;gap:10px;margin-top:24px}.actions .btn{flex:1}input,textarea{width:100%;background:#10090e;color:var(--text);border:1px solid #573047;border-radius:12px;padding:13px 14px;outline:none}input:focus,textarea:focus{border-color:var(--pink)}label{display:block;font-size:.9rem;margin:12px 0 7px;color:#f4d5e1}.hidden{display:none!important}.small{font-size:.85rem;color:var(--muted)}.notice{border:1px solid #624058;background:#21121d;padding:12px 14px;border-radius:12px;font-size:.9rem;color:#f2c7d8}.success{text-align:center;padding:26px 8px}.range{width:100%;accent-color:var(--pink)}.scale{display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem}table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{text-align:left;vertical-align:top;padding:12px 8px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}th{color:var(--rose)}footer{text-align:center;font-size:.8rem;color:#8f6c7d;margin:28px 0}
-</style></head><body><div class="wrap"><header class="top"><div class="heart">♥</div><div class="eyebrow">a little something for you</div><h1>For you, babe</h1><p>Five little questions, just between us.<br>Take your time and answer from your heart. ♡</p></header>
-<main id="quiz" class="card"><div class="progress"><div id="bar" class="bar"></div></div><div id="questionArea"></div><div class="actions"><button id="back" class="btn secondary">Back</button><button id="next" class="btn" disabled>Next ♡</button></div><p class="small" style="text-align:center;margin-bottom:0">Your answers will be sent privately when you submit them.</p></main>
-<section id="done" class="card hidden"><div class="success"><div class="heart">💌</div><h2>Your answers are with me now, babe.</h2><p>Thank you for being honest with me. ♡</p><p class="small">You can close this page now.</p></div></section>
-<section id="admin" class="card hidden"><div class="eyebrow">private area</div><h2>Owner dashboard</h2><p>Enter your password to view submitted answers.</p><label for="adminPassword">Password</label><input id="adminPassword" type="password" placeholder="Owner password"><div class="actions"><button id="login" class="btn">Unlock answers</button></div><div id="adminMessage" class="notice hidden" style="margin-top:14px"></div><div id="answersArea" class="hidden"></div></section><footer>made with ♥, just for babe</footer></div>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Little Secret for You ❤️</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;padding:22px 14px 40px;min-height:100vh;
+  font-family:Georgia,"Times New Roman",serif;color:#642b40;
+  background:linear-gradient(145deg,#fff0f4,#ffe0e9,#fff7f8);
+}
+.container{max-width:600px;margin:auto}
+.card{
+  background:rgba(255,255,255,.95);border:1px solid #f6c7d4;
+  border-radius:24px;padding:28px 22px;margin-bottom:18px;
+  box-shadow:0 12px 35px rgba(145,43,77,.09)
+}
+.center{text-align:center}
+.heart{font-size:55px;display:inline-block;animation:beat 1.5s infinite}
+@keyframes beat{50%{transform:scale(1.12)}}
+h1{font-size:clamp(29px,7vw,42px);margin:12px 0}
+h2{margin-top:0}
+p{line-height:1.7}
+.muted{color:#986074}
+.progress-track{height:7px;background:#f8dce5;border-radius:9px;overflow:hidden;margin:20px 0 8px}
+.progress-fill{height:100%;width:20%;background:#d94d7b;transition:width .3s}
+.progress-label{font:13px Arial,sans-serif;color:#986074;text-align:right}
+.question{animation:appear .3s ease}
+@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.question-title{font-size:23px;line-height:1.5;margin:25px 0 18px}
+textarea,input[type=password]{
+  width:100%;border:1px solid #e8b8c8;border-radius:13px;
+  padding:14px;font:16px Arial,sans-serif;background:#fffafb;color:#642b40
+}
+textarea{min-height:135px;resize:vertical}
+textarea:focus,input:focus{outline:2px solid #df7196;outline-offset:1px}
+.scale{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:22px 0}
+.scale label{cursor:pointer;margin:0}
+.scale input{position:absolute;opacity:0}
+.scale span{
+ display:flex;align-items:center;justify-content:center;width:40px;height:40px;
+ border:1px solid #e9b5c7;border-radius:50%;background:white;font:15px Arial
+}
+.scale input:checked+span{background:#d94d7b;color:white;border-color:#d94d7b}
+.scale input:focus-visible+span{outline:2px solid #642b40}
+button{
+ border:0;border-radius:30px;background:#d94d7b;color:white;padding:13px 22px;
+ font-size:15px;cursor:pointer;font-weight:bold;transition:.2s
+}
+button:hover{background:#b83260;transform:translateY(-1px)}
+button:disabled{opacity:.6;cursor:wait;transform:none}
+.primary{width:100%;margin-top:20px}
+.navigation{display:flex;gap:12px;margin-top:25px}
+.navigation button{flex:1}
+.back{background:#f9e4eb;color:#8b3655}
+.back:hover{background:#f2ceda}
+.message{margin-top:14px;overflow-wrap:anywhere}
+.error{color:#b42345}.success{color:#28764c}
+.hidden{display:none!important}
+#qrcode{display:inline-block;background:white;padding:12px;border:7px solid #f6c7d4;border-radius:22px;margin:12px auto}
+#qrcode img,#qrcode canvas{display:block;max-width:100%;height:auto}
+.answer-entry{border:1px solid #f0cad6;border-radius:14px;padding:15px;margin:14px 0;background:#fff9fb}
+.answer-entry p{white-space:pre-wrap;overflow-wrap:anywhere}
+.small{font-size:13px;color:#986074}
+footer{padding:12px;font-size:13px;color:#986074}
+</style>
+</head>
+
+<body>
+<main class="container">
+
+<section class="card center" id="intro">
+  <div class="heart">❤️</div>
+  <h1>A Little Secret for You</h1>
+  <p class="muted">Hey beautiful 💕 I've got five little questions for you.</p>
+  <p>Answer honestly, from your heart. Take your time, jaanu. 💌</p>
+  <button id="startButton">Open My Questions 💗</button>
+</section>
+
+<section class="card hidden" id="quizCard">
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-label" id="progressLabel">Question 1 of 5</div>
+
+  <form id="answerForm">
+    <div id="questionArea" class="question"></div>
+    <div class="navigation">
+      <button type="button" class="back" id="backButton">← Back</button>
+      <button type="button" id="nextButton">Next ❤️</button>
+    </div>
+    <button type="submit" class="primary hidden" id="submitButton">Send My Answers 💌</button>
+    <div id="submitMessage" class="message" role="status"></div>
+  </form>
+</section>
+
+<section class="card center hidden" id="thankYou">
+  <div class="heart">💖</div>
+  <h2>Your answers have been sent!</h2>
+  <p>Thank you for answering from your heart, beautiful. 🌷</p>
+  <p class="muted">Your answers won't be displayed here.</p>
+</section>
+
+<section class="card center" id="qrCard">
+  <h2>Our Little Heart Secret 💞</h2>
+  <p>Scan this QR code to open the questions on your website.</p>
+  <div id="qrcode"></div>
+  <p class="small">The QR code will point to your published website.</p>
+</section>
+
+<section class="card hidden" id="ownerPanel">
+  <h2 class="center">🔐 Private Owner Page</h2>
+  <p class="center muted">Enter your owner code to request the answers.</p>
+  <form id="ownerForm">
+    <label for="ownerCode">Owner code</label>
+    <input id="ownerCode" type="password" inputmode="numeric" autocomplete="current-password" required placeholder="Enter your owner code">
+    <button class="primary" id="ownerButton" type="submit">View Answers ❤️</button>
+  </form>
+  <div id="ownerMessage" class="message" role="status"></div>
+  <div id="answersList"></div>
+</section>
+
+<footer class="center">Made with love ❤️</footer>
+</main>
+
 <script>
-// Set this to your Supabase project URL after following README.md.
-const SUPABASE_URL="YOUR_SUPABASE_PROJECT_URL";
-const questions=[{title:"How much do you love me?",type:"scale",minLabel:"A little",maxLabel:"More than words can say"},{title:"If you had a chance with me, what would you do?",type:"choice",options:["Hold you close and never rush the moment 🫶","Take you on the sweetest date 🌹","Tell you everything in my heart 💌","All of these… and more ❤️"]},{title:"What is the first thing you would want us to do together?",type:"text",placeholder:"Tell me what you imagine…"},{title:"When you think about us, what feeling comes to your heart?",type:"choice",options:["Butterflies 🦋","Peace and comfort 🌙","Excitement for what could be ✨","A little bit of everything 💗"]},{title:"If you could tell me one thing honestly, what would it be?",type:"text",placeholder:"Anything you want me to know, babe…"}];let index=0;const answers={};const qArea=document.getElementById('questionArea'),bar=document.getElementById('bar'),back=document.getElementById('back'),next=document.getElementById('next');function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function render(){const q=questions[index];bar.style.width=(index/questions.length*100)+'%';back.disabled=index===0;next.textContent=index===questions.length-1?'Send my answers ♥':'Next ♡';let body=`<div class="qnum">Question ${index+1} of ${questions.length}</div><h2>${q.title}</h2>`;if(q.type==='scale'){const val=answers[index]??8;body+=`<div style="text-align:center;font-family:Georgia,serif;font-size:3rem;color:var(--rose)" id="scaleVal">${val}<span style="font-size:1rem"> / 10</span></div><input class="range" id="answer" type="range" min="1" max="10" value="${val}"><div class="scale"><span>${q.minLabel}</span><span>${q.maxLabel}</span></div>`}else if(q.type==='choice'){body+='<div class="options">'+q.options.map(o=>`<button type="button" class="option ${answers[index]===o?'selected':''}" data-value="${esc(o)}">${o}</button>`).join('')+'</div>'}else body+=`<textarea id="answer" rows="4" maxlength="1200" placeholder="${q.placeholder}">${esc(answers[index]||'')}</textarea>`;qArea.innerHTML=body;if(q.type==='choice'){qArea.querySelectorAll('.option').forEach(b=>b.addEventListener('click',()=>{answers[index]=b.dataset.value;qArea.querySelectorAll('.option').forEach(x=>x.classList.toggle('selected',x===b));next.disabled=false}))}else{const inp=document.getElementById('answer');inp.addEventListener('input',()=>{answers[index]=q.type==='scale'?Number(inp.value):inp.value;if(q.type==='scale')document.getElementById('scaleVal').innerHTML=inp.value+'<span style="font-size:1rem"> / 10</span>';next.disabled=q.type==='text'&&!inp.value.trim()})}next.disabled=answers[index]===undefined||(q.type==='text'&&!String(answers[index]).trim())}
-back.onclick=()=>{if(index>0){index--;render()}};next.onclick=async()=>{if(index<questions.length-1){index++;render();return}next.disabled=true;next.textContent='Sending…';try{if(!SUPABASE_URL.startsWith('https://')||SUPABASE_URL.includes('YOUR_SUPABASE'))throw Error('Website setup is not finished yet.');const r=await fetch(SUPABASE_URL+'/functions/v1/submit-answer',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({answers:questions.map((q,i)=>({question:q.title,answer:answers[i]}))})});if(!r.ok)throw Error('Submit failed');document.getElementById('quiz').classList.add('hidden');document.getElementById('done').classList.remove('hidden')}catch(e){alert('The website still needs its private answer-storage setup. Follow README.md before sharing it.');next.disabled=false;next.textContent='Send my answers ♥'}};
-document.getElementById('login').onclick=async()=>{const msg=document.getElementById('adminMessage'),area=document.getElementById('answersArea');msg.classList.remove('hidden');area.classList.add('hidden');try{if(!SUPABASE_URL.startsWith('https://')||SUPABASE_URL.includes('YOUR_SUPABASE'))throw Error('Finish the setup steps in README.md first.');const r=await fetch(SUPABASE_URL+'/functions/v1/owner-answers',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:document.getElementById('adminPassword').value})});const d=await r.json();if(!r.ok)throw Error(d.error||'Could not authenticate');msg.textContent='Answers loaded privately.';area.innerHTML='<table><thead><tr><th>Submitted</th><th>Question</th><th>Answer</th></tr></thead><tbody>'+d.submissions.flatMap(s=>s.answers.map(a=>'<tr><td>'+esc(new Date(s.submitted_at).toLocaleString())+'</td><td>'+esc(a.question)+'</td><td>'+esc(a.answer)+'</td></tr>')).join('')+'</tbody></table>';area.classList.remove('hidden')}catch(e){msg.textContent=e.message}};if(new URLSearchParams(location.search).get('owner')==='1'){document.getElementById('quiz').classList.add('hidden');document.getElementById('admin').classList.remove('hidden')}render();
-</script></body></html>
+const SUPABASE_URL="https://trqszvyzfnkuupqtrrff.supabase.co";
+const SUPABASE_FUNCTION=SUPABASE_URL+"/functions/v1/hyper-responder";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_Uqpv423sN36Nx0yYYsUykQ_yzbt-5ly";
+
+const questions=[
+ {key:"q1",title:"How much do you love me? ❤️",type:"scale"},
+ {key:"q2",title:"If you had a chance with me, what would you do? 🥹",placeholder:"Tell me what your heart would choose..."},
+ {key:"q3",title:"What is one thing about me that makes you smile? 😊",placeholder:"Even something small..."},
+ {key:"q4",title:"If we could spend a whole day together, what would you want us to do? 🌹",placeholder:"Describe your perfect day with me..."},
+ {key:"q5",title:"Describe our connection in three words. 💗",placeholder:"Three words from your heart..."}
+];
+
+const $=id=>document.getElementById(id);
+let currentQuestion=0;
+const answers={q1:"",q2:"",q3:"",q4:"",q5:""};
+
+function showMessage(id,text,error=false){
+  $(id).textContent=text;
+  $(id).className="message "+(error?"error":"success");
+}
+
+async function callFunction(payload){
+  const response=await fetch(SUPABASE_FUNCTION,{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "apikey":SUPABASE_PUBLISHABLE_KEY
+    },
+    body:JSON.stringify(payload)
+  });
+  const raw=await response.text();
+  let data;
+  try{data=JSON.parse(raw)}
+  catch{throw new Error("Unexpected server response. Please try again.")}
+  if(!response.ok||data.success===false||data.error){
+    throw new Error(data.error||data.message||("Request failed ("+response.status+")."));
+  }
+  return data;
+}
+
+function rememberCurrentAnswer(){
+  const q=questions[currentQuestion];
+  if(q.type==="scale"){
+    const selected=document.querySelector('input[name="q1"]:checked');
+    answers.q1=selected?selected.value:"";
+  }else{
+    answers[q.key]=$(q.key).value.trim();
+  }
+}
+
+function renderQuestion(){
+  const q=questions[currentQuestion];
+  const area=$("questionArea");
+  area.replaceChildren();
+
+  const title=document.createElement("div");
+  title.className="question-title";
+  title.textContent=q.title;
+  area.appendChild(title);
+
+  if(q.type==="scale"){
+    const hint=document.createElement("p");
+    hint.className="muted center";
+    hint.textContent="Choose a number from 1 to 10.";
+    area.appendChild(hint);
+
+    const scale=document.createElement("div");
+    scale.className="scale";
+    for(let i=1;i<=10;i++){
+      const label=document.createElement("label");
+      const input=document.createElement("input");
+      input.type="radio";input.name="q1";input.value=String(i);
+      input.required=true;input.checked=answers.q1===String(i);
+      const span=document.createElement("span");
+      span.textContent=String(i);
+      label.append(input,span);
+      scale.appendChild(label);
+    }
+    area.appendChild(scale);
+  }else{
+    const textarea=document.createElement("textarea");
+    textarea.id=q.key;
+    textarea.maxLength=2000;
+    textarea.required=true;
+    textarea.placeholder=q.placeholder;
+    textarea.value=answers[q.key];
+    textarea.setAttribute("aria-label",q.title);
+    area.appendChild(textarea);
+  }
+
+  $("progressFill").style.width=((currentQuestion+1)/questions.length*100)+"%";
+  $("progressLabel").textContent="Question "+(currentQuestion+1)+" of "+questions.length;
+  $("backButton").classList.toggle("hidden",currentQuestion===0);
+  $("nextButton").classList.toggle("hidden",currentQuestion===questions.length-1);
+  $("submitButton").classList.toggle("hidden",currentQuestion!==questions.length-1);
+  $("submitMessage").textContent="";
+}
+
+function validateCurrentAnswer(){
+  rememberCurrentAnswer();
+  const q=questions[currentQuestion];
+  if(!answers[q.key]){
+    showMessage("submitMessage","Please answer this question first ❤️",true);
+    return false;
+  }
+  return true;
+}
+
+$("startButton").addEventListener("click",()=>{
+  $("intro").classList.add("hidden");
+  $("quizCard").classList.remove("hidden");
+  renderQuestion();
+});
+
+$("nextButton").addEventListener("click",()=>{
+  if(!validateCurrentAnswer())return;
+  if(currentQuestion<questions.length-1){
+    currentQuestion++;
+    renderQuestion();
+  }
+});
+
+$("backButton").addEventListener("click",()=>{
+  rememberCurrentAnswer();
+  if(currentQuestion>0){
+    currentQuestion--;
+    renderQuestion();
+  }
+});
+
+$("answerForm").addEventListener("submit",async event=>{
+  event.preventDefault();
+  if(!validateCurrentAnswer())return;
+
+  const button=$("submitButton");
+  button.disabled=true;
+  button.textContent="Sending your answers... 💗";
+  showMessage("submitMessage","Sending your answers...");
+
+  try{
+    await callFunction({action:"submit",answers:{...answers}});
+    $("quizCard").classList.add("hidden");
+    $("thankYou").classList.remove("hidden");
+  }catch(error){
+    showMessage("submitMessage","Your answers were not confirmed as saved. "+error.message,true);
+  }finally{
+    button.disabled=false;
+    button.textContent="Send My Answers 💌";
+  }
+});
+
+const ownerMode=new URLSearchParams(window.location.search).get("owner")==="1";
+if(ownerMode){
+  $("intro").classList.add("hidden");
+  $("quizCard").classList.add("hidden");
+  $("qrCard").classList.add("hidden");
+  $("thankYou").classList.add("hidden");
+  $("ownerPanel").classList.remove("hidden");
+  document.title="Private Owner Page ❤️";
+}
+
+try{
+  const publicUrl=new URL(window.location.href);
+  publicUrl.searchParams.delete("owner");
+  publicUrl.hash="";
+  if(location.protocol==="http:"||location.protocol==="https:"){
+    new QRCode($("qrcode"),{
+      text:publicUrl.toString(),width:190,height:190,
+      colorDark:"#642b40",colorLight:"#ffffff",
+      correctLevel:QRCode.CorrectLevel.H
+    });
+  }else{
+    $("qrcode").textContent="Publish the website to create its QR code.";
+  }
+}catch(error){
+  $("qrcode").textContent="QR code will appear after publishing.";
+}
+
+function addText(parent,tag,text){
+  const el=document.createElement(tag);
+  el.textContent=text;
+  parent.appendChild(el);
+  return el;
+}
+
+$("ownerForm").addEventListener("submit",async event=>{
+  event.preventDefault();
+  const button=$("ownerButton");
+  button.disabled=true;
+  button.textContent="Checking code...";
+  $("answersList").replaceChildren();
+  showMessage("ownerMessage","Checking the owner code...");
+
+  try{
+    const result=await callFunction({
+      action:"view",
+      ownerCode:$("ownerCode").value
+    });
+    if(!Array.isArray(result.answers)){
+      throw new Error("The server did not return an answers list.");
+    }
+
+    if(result.answers.length===0){
+      addText($("answersList"),"p","No answers have been submitted yet.");
+    }
+
+    result.answers.forEach((entry,index)=>{
+      const card=document.createElement("article");
+      card.className="answer-entry";
+      addText(card,"h3","Submission "+(index+1));
+
+      if(entry.created_at){
+        const date=new Date(entry.created_at);
+        addText(card,"p","Submitted: "+(Number.isNaN(date.getTime())?entry.created_at:date.toLocaleString()));
+      }
+
+      const values=entry.answers||{};
+      questions.forEach(q=>{
+        addText(card,"strong",q.title);
+        addText(card,"p",String(values[q.key]??"(No answer)"));
+      });
+      $("answersList").appendChild(card);
+    });
+    showMessage("ownerMessage","Answers loaded ❤️");
+  }catch(error){
+    showMessage("ownerMessage","Could not load answers. "+error.message,true);
+  }finally{
+    button.disabled=false;
+    button.textContent="View Answers ❤️";
+  }
+});
+</script>
+</body>
+</html>
